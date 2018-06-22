@@ -211,6 +211,10 @@ int main(void) {
             capVideo.read(imgFrame2);
         } else {
             std::cout << "end of video\n";
+            time (&end);
+            double diff = difftime (end, start);
+            double fps = frameCount / diff;
+            printf ("Frames %i is %.2lf seconds.  FPS:  %.2lf", frameCount, diff, fps );
             break;
         }
 
@@ -218,11 +222,6 @@ int main(void) {
         frameCount++;
         chCheckForEscKey = cv::waitKey(1);
     }
-
-    time (&end);
-    double diff = difftime (end, start);
-    double fps = frameCount / diff;
-    printf ("Frames %i is %.2lf seconds.  FPS:  %.2lf", frameCount, diff, fps );
 
     if (chCheckForEscKey != 27) {               // if the user did not press esc (i.e. we reached the end of the video)
         cv::waitKey(0);                         // hold the windows open to allow the "end of video" message to show
