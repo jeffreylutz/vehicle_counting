@@ -48,6 +48,8 @@ void drawCarCountOnImage(int &carCountRight, cv::Mat &imgFrame2Copy);
 std::stringstream date;
 int carCountLeft, intVerticalLinePosition, carCountRight = 0;
 
+bool debug = false;
+
 int main(void) {
     cv::VideoCapture capVideo;
     cv::Mat imgFrame1;
@@ -113,7 +115,7 @@ int main(void) {
         cv::GaussianBlur(imgFrame2Copy, imgFrame2Copy, cv::Size(5, 5), 0);
         cv::absdiff(imgFrame1Copy, imgFrame2Copy, imgDifference);
         cv::threshold(imgDifference, imgThresh, 30, 255.0, CV_THRESH_BINARY);
-        cv::imshow("imgThresh", imgThresh);
+        if ( debug ) cv::imshow("imgThresh", imgThresh);
 //        cv::imshow("frame", imgFrame2);
 //        if (cv::waitKey(1) >= 0) break; continue;
         cv::Mat structuringElement3x3 = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
@@ -295,7 +297,7 @@ double distanceBetweenPoints(cv::Point point1, cv::Point point2) {
 void drawAndShowContours(cv::Size imageSize, std::vector<std::vector<cv::Point> > contours, std::string strImageName) {
     cv::Mat image(imageSize, CV_8UC3, SCALAR_BLACK);
     cv::drawContours(image, contours, -1, SCALAR_WHITE, -1);
-    cv::imshow(strImageName, image);
+    if ( debug ) cv::imshow(strImageName, image);
 }
 
 
@@ -310,7 +312,7 @@ void drawAndShowContours(cv::Size imageSize, std::vector<Blob> blobs, std::strin
     }
 
     cv::drawContours(image, contours, -1, SCALAR_WHITE, -1);
-    cv::imshow(strImageName, image);
+    if ( debug ) cv::imshow(strImageName, image);
 }
 
 
