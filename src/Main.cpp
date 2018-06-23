@@ -50,7 +50,11 @@ int carCountLeft, intVerticalLinePosition, carCountRight = 0;
 
 bool debug = false;
 
-int main(void) {
+int main(int argc, char *argv[]) {
+    bool show = false;
+    if(argc > 1) {
+        show = true;
+    }
     cv::VideoCapture capVideo;
     cv::Mat imgFrame1;
     cv::Mat imgFrame2;
@@ -198,7 +202,8 @@ int main(void) {
 
         drawCarCountOnImage(carCountRight, imgFrame2Copy);
 
-        cv::imshow("imgFrame2Copy", imgFrame2Copy);
+
+        if ( show == true ) cv::imshow("imgFrame2Copy", imgFrame2Copy);
 
         //cv::waitKey(0);	// uncomment this line to go frame by frame for debugging        
 
@@ -209,17 +214,18 @@ int main(void) {
 
         if ((capVideo.get(CV_CAP_PROP_POS_FRAMES) + 1) < capVideo.get(CV_CAP_PROP_FRAME_COUNT)) {
             capVideo.read(imgFrame2);
+            frameCount++;
         } else {
             std::cout << "end of video\n";
             time (&end);
             double diff = difftime (end, start);
             double fps = frameCount / diff;
             printf ("Frames %i is %.2lf seconds.  FPS:  %.2lf", frameCount, diff, fps );
+            exit(0);
             break;
         }
 
         blnFirstFrame = false;
-        frameCount++;
         chCheckForEscKey = cv::waitKey(1);
     }
 
