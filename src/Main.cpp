@@ -52,7 +52,7 @@ bool debug = false;
 
 int main(int argc, char *argv[]) {
     bool show = false;
-    if(argc > 1) {
+    if (argc > 1) {
         show = true;
     }
     cv::VideoCapture capVideo;
@@ -105,7 +105,7 @@ int main(int argc, char *argv[]) {
     bool blnFirstFrame = true;
     int frameCount = 2;
     time_t start, end;
-    time (&start);
+    time(&start);
     while (capVideo.isOpened() && chCheckForEscKey != 27) {
 //        imgFrame1 = imgFrame2.clone();
 //        capVideo.read(imgFrame2);
@@ -120,7 +120,7 @@ int main(int argc, char *argv[]) {
         cv::GaussianBlur(imgFrame2Copy, imgFrame2Copy, cv::Size(5, 5), 0);
         cv::absdiff(imgFrame1Copy, imgFrame2Copy, imgDifference);
         cv::threshold(imgDifference, imgThresh, 30, 255.0, CV_THRESH_BINARY);
-        if ( debug ) cv::imshow("imgThresh", imgThresh);
+        if (debug) cv::imshow("imgThresh", imgThresh);
 //        cv::imshow("frame", imgFrame2);
 //        if (cv::waitKey(1) >= 0) break; continue;
         cv::Mat structuringElement3x3 = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
@@ -180,11 +180,13 @@ int main(int argc, char *argv[]) {
         drawBlobInfoOnImage(blobs, imgFrame2Copy);
 
         // Check the rightWay
-        bool blnAtLeastOneBlobCrossedTheLine = checkIfBlobsCrossedTheLineRight(blobs, intHorizontalLinePosition,
-                                                                               carCountRight);
+        bool blnAtLeastOneBlobCrossedTheLine;
+        blnAtLeastOneBlobCrossedTheLine = checkIfBlobsCrossedTheLineRight(blobs, intHorizontalLinePosition,
+                                                                          carCountRight);
         // Check the leftWay
-        bool blnAtLeastOneBlobCrossedTheLineLeft = checkIfBlobsCrossedTheLineLeft(blobs, intHorizontalLinePosition,
-                                                                                  carCountLeft);
+        bool blnAtLeastOneBlobCrossedTheLineLeft;
+        blnAtLeastOneBlobCrossedTheLineLeft = checkIfBlobsCrossedTheLineLeft(blobs, intHorizontalLinePosition,
+                                                                             carCountLeft);
 
         //rightWay
         if (blnAtLeastOneBlobCrossedTheLine == true) {
@@ -203,7 +205,7 @@ int main(int argc, char *argv[]) {
         drawCarCountOnImage(carCountRight, imgFrame2Copy);
 
 
-        if ( show == true ) cv::imshow("imgFrame2Copy", imgFrame2Copy);
+        if (show == true) cv::imshow("imgFrame2Copy", imgFrame2Copy);
 
         //cv::waitKey(0);	// uncomment this line to go frame by frame for debugging        
 
@@ -217,10 +219,10 @@ int main(int argc, char *argv[]) {
             frameCount++;
         } else {
             std::cout << "end of video\n";
-            time (&end);
-            double diff = difftime (end, start);
+            time(&end);
+            double diff = difftime(end, start);
             double fps = frameCount / diff;
-            printf ("Frames %i is %.2lf seconds.  FPS:  %.2lf", frameCount, diff, fps );
+            printf("Frames %i is %.2lf seconds.  FPS:  %.2lf", frameCount, diff, fps);
             exit(0);
             break;
         }
@@ -308,7 +310,7 @@ double distanceBetweenPoints(cv::Point point1, cv::Point point2) {
 void drawAndShowContours(cv::Size imageSize, std::vector<std::vector<cv::Point> > contours, std::string strImageName) {
     cv::Mat image(imageSize, CV_8UC3, SCALAR_BLACK);
     cv::drawContours(image, contours, -1, SCALAR_WHITE, -1);
-    if ( debug ) cv::imshow(strImageName, image);
+    if (debug) cv::imshow(strImageName, image);
 }
 
 
@@ -323,7 +325,7 @@ void drawAndShowContours(cv::Size imageSize, std::vector<Blob> blobs, std::strin
     }
 
     cv::drawContours(image, contours, -1, SCALAR_WHITE, -1);
-    if ( debug ) cv::imshow(strImageName, image);
+    if (debug) cv::imshow(strImageName, image);
 }
 
 
